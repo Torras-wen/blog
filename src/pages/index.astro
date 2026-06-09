@@ -1,49 +1,238 @@
 ---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 4);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<section class="hero">
+				<span class="eyebrow">WG BLOG</span>
+				<h1>记录开发，也记录折腾</h1>
+				<p>{SITE_DESCRIPTION}</p>
+				<div class="hero-actions">
+					<a class="button button-primary" href="/blog">浏览全部文章</a>
+					<a class="button button-ghost" href="/about">关于我 →</a>
+				</div>
+			</section>
+
+			<section class="recent">
+				<div class="section-head">
+					<h2>最近更新</h2>
+					<a class="section-more" href="/blog">查看全部 →</a>
+				</div>
+				<ul class="post-grid">
+					{
+						posts.map((post) => (
+							<li class="post-card">
+								<a href={`/blog/${post.id}/`}>
+									{post.data.heroImage && (
+										<div class="thumb">
+											<Image
+												width={720}
+												height={405}
+												src={post.data.heroImage}
+												alt=""
+											/>
+										</div>
+									)}
+									<div class="card-body">
+										<FormattedDate date={post.data.pubDate} />
+										<h3>{post.data.title}</h3>
+										<p>{post.data.description}</p>
+									</div>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	main {
+		width: var(--container-wide);
+	}
+
+	/* Hero */
+	.hero {
+		text-align: center;
+		padding: 3rem 0 4rem;
+	}
+	.eyebrow {
+		display: inline-block;
+		margin-bottom: 1rem;
+		padding: 0.3em 0.9em;
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		color: var(--accent);
+		background: var(--accent-soft);
+		border-radius: var(--radius-pill);
+	}
+	.hero h1 {
+		margin: 0 0 1rem;
+		font-size: clamp(2.2rem, 6vw, 3.2rem);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+	}
+	.hero p {
+		max-width: 38rem;
+		margin: 0 auto;
+		color: var(--text-muted);
+		font-size: 1.15rem;
+	}
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.8rem;
+		margin-top: 2rem;
+	}
+	.button {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.7rem 1.5rem;
+		border-radius: var(--radius-pill);
+		font-weight: 600;
+		font-size: 0.98rem;
+		border: 1px solid transparent;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease,
+			background-color 0.2s ease,
+			color 0.2s ease,
+			border-color 0.2s ease;
+	}
+	.button-primary {
+		background: var(--accent);
+		color: var(--accent-contrast);
+	}
+	.button-primary:hover {
+		color: var(--accent-contrast);
+		background: var(--accent-hover);
+		transform: translateY(-1px);
+		box-shadow: var(--shadow);
+	}
+	.button-ghost {
+		color: var(--text);
+		border-color: var(--border-strong);
+	}
+	.button-ghost:hover {
+		color: var(--text);
+		background: var(--surface-hover);
+	}
+
+	/* Recent posts */
+	.section-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+	}
+	.section-head h2 {
+		margin: 0;
+		font-size: 1.5rem;
+	}
+	.section-more {
+		font-size: 0.95rem;
+		font-weight: 500;
+		white-space: nowrap;
+	}
+	.post-grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1.5rem;
+	}
+	.post-card a {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		overflow: hidden;
+		color: inherit;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease,
+			border-color 0.2s ease;
+	}
+	.post-card a:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow);
+		border-color: var(--border-strong);
+	}
+	.thumb {
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+		background: var(--bg-subtle);
+	}
+	.thumb :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 0;
+		display: block;
+		transition: transform 0.4s ease;
+	}
+	.post-card a:hover .thumb :global(img) {
+		transform: scale(1.04);
+	}
+	.card-body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+		padding: 1.1rem 1.2rem 1.3rem;
+	}
+	.card-body time {
+		font-size: 0.82rem;
+		color: var(--text-faint);
+	}
+	.card-body h3 {
+		margin: 0;
+		font-size: 1.15rem;
+		line-height: 1.4;
+	}
+	.card-body p {
+		margin: 0;
+		font-size: 0.92rem;
+		color: var(--text-muted);
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	@media (max-width: 640px) {
+		.post-grid {
+			grid-template-columns: 1fr;
+		}
+		.hero {
+			padding: 1.5rem 0 3rem;
+		}
+	}
+</style>

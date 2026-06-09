@@ -13,102 +13,139 @@ const posts = (await getCollection('blog')).sort(
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
+		<BaseHead title={`博客 · ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
+			<header class="page-head">
+				<h1>博客</h1>
+				<p>共 {posts.length} 篇文章 · 记录开发、工具与思考</p>
+			</header>
+
+			<ul class="post-grid">
+				{
+					posts.map((post) => (
+						<li class="post-card">
+							<a href={`/blog/${post.id}/`}>
+								{post.data.heroImage && (
+									<div class="thumb">
+										<Image
+											width={720}
+											height={405}
+											src={post.data.heroImage}
+											alt=""
+										/>
+									</div>
+								)}
+								<div class="card-body">
+									<FormattedDate date={post.data.pubDate} />
+									<h2 class="title">{post.data.title}</h2>
+									<p class="desc">{post.data.description}</p>
+								</div>
+							</a>
+						</li>
+					))
+				}
+			</ul>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	main {
+		width: var(--container-wide);
+	}
+	.page-head {
+		margin-bottom: 2.5rem;
+		padding-bottom: 1.5rem;
+		border-bottom: 1px solid var(--border);
+	}
+	.page-head h1 {
+		margin: 0 0 0.4rem;
+		font-size: clamp(2rem, 5vw, 2.6rem);
+		letter-spacing: -0.02em;
+	}
+	.page-head p {
+		margin: 0;
+		color: var(--text-muted);
+		font-size: 1.05rem;
+	}
+	.post-grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 1.5rem;
+	}
+	.post-card a {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		overflow: hidden;
+		color: inherit;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease,
+			border-color 0.2s ease;
+	}
+	.post-card a:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow);
+		border-color: var(--border-strong);
+	}
+	.thumb {
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+		background: var(--bg-subtle);
+	}
+	.thumb :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 0;
+		display: block;
+		transition: transform 0.4s ease;
+	}
+	.post-card a:hover .thumb :global(img) {
+		transform: scale(1.04);
+	}
+	.card-body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+		padding: 1.1rem 1.2rem 1.3rem;
+	}
+	.card-body time {
+		font-size: 0.82rem;
+		color: var(--text-faint);
+	}
+	.title {
+		margin: 0;
+		font-size: 1.2rem;
+		line-height: 1.4;
+		color: var(--text);
+	}
+	.desc {
+		margin: 0;
+		font-size: 0.92rem;
+		color: var(--text-muted);
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	@media (max-width: 520px) {
+		.post-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -8,6 +8,17 @@ import { defineConfig, fontProviders } from 'astro/config';
 export default defineConfig({
 	site: 'https://example.com',
 	integrations: [mdx(), sitemap()],
+	markdown: {
+		shikiConfig: {
+			// Dual themes so code blocks adapt to light/dark mode via CSS variables.
+			themes: {
+				light: 'github-light',
+				dark: 'github-dark',
+			},
+			defaultColor: false,
+			wrap: true,
+		},
+	},
 	fonts: [
 		{
 			provider: fontProviders.local(),
