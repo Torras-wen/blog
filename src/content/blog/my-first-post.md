@@ -2,6 +2,7 @@
 title: "我的第一篇博客"
 description: "记录一下我开始搭建个人博客的过程"
 pubDate: "2026-06-09"
+heroImage: "../../assets/blog-placeholder-1.jpg"
 ---
 
 今天开始搭建自己的个人博客。
