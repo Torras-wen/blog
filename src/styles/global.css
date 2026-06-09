@@ -437,15 +437,35 @@ pre > code {
 }
 
 /* ------------------------------------------------------------------ */
+/* Smooth scrolling (Lenis)                                            */
+/* ------------------------------------------------------------------ */
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+.lenis.lenis-smooth {
+	scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+	overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+	overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+	pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ */
 /* Reveal-on-scroll (progressive enhancement, gated on .js)            */
 /* ------------------------------------------------------------------ */
 .js [data-reveal] {
 	opacity: 0;
-	will-change: opacity, transform;
+	will-change: opacity, transform, filter;
 }
 .js .hero-title .line {
 	opacity: 0;
-	will-change: opacity, transform;
+	will-change: opacity, transform, filter;
 }
 
 /* ------------------------------------------------------------------ */
@@ -480,6 +500,7 @@ pre > code {
 	.js .hero-title .line {
 		opacity: 1;
 		transform: none;
+		filter: none;
 		transition: none;
 	}
 	*,
