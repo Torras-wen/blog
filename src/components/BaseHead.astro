@@ -5,7 +5,8 @@ import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { SITE_TITLE } from '../consts';
-import { Font } from 'astro:assets';
+import '@fontsource-variable/fraunces/opsz.css';
+import '@fontsource-variable/fraunces/opsz-italic.css';
 
 interface Props {
 	title: string;
@@ -33,10 +34,11 @@ const { title, description, image = FallbackImage } = Astro.props;
 					? 'dark'
 					: 'light';
 		document.documentElement.dataset.theme = theme;
+		document.documentElement.classList.add('js');
 	})();
 </script>
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0e14" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfaf7" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#15140f" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" href="/favicon.ico" />
@@ -48,8 +50,6 @@ const { title, description, image = FallbackImage } = Astro.props;
 	href={new URL('rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
-
-<Font cssVariable="--font-atkinson" preload />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
