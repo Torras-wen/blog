@@ -2,7 +2,6 @@
 title: "Shopify GraphQL 实战：Storefront API 与 Admin API 怎么选"
 description: "两套 GraphQL API 长得像，用途和权限却天差地别。讲清楚什么场景该用哪一个，以及分页、限流、安全这些绕不开的细节。"
 pubDate: "2026-04-30"
-heroImage: "../../assets/blog-placeholder-5.jpg"
 ---
 
 Shopify 有两套 GraphQL API：**Storefront API** 和 **Admin API**。新手最常见的困惑是「它俩都能查产品，到底用哪个」。一句话区分：**给买家看的、能放到前端的，用 Storefront；做管理的、必须留在服务端的，用 Admin。**

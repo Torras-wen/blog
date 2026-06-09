@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import PostCover from '../components/PostCover.astro';
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
@@ -22,12 +22,15 @@ const more = rest.slice(0, 5);
 	<body>
 		<Header />
 		<main>
-			<section class="hero" data-reveal>
-				<span class="kicker">WG BLOG</span>
-				<h1>Documenting development,and also documenting the tinkering.</span></h1>
-				<p class="hero-sub">Notes on Shopify, AI tools &amp; the occasional side quest.</p>
-				<p class="hero-desc">{SITE_DESCRIPTION}</p>
-				<div class="hero-actions">
+			<section class="hero">
+				<span class="kicker" data-reveal>WG BLOG</span>
+				<h1 class="hero-title">
+					<span class="line">Documenting development,</span>
+					<span class="line">and the tinkering.</span>
+				</h1>
+				<p class="hero-sub" data-reveal>Notes on Shopify, AI tools &amp; the occasional side quest.</p>
+				<p class="hero-desc" data-reveal>{SITE_DESCRIPTION}</p>
+				<div class="hero-actions" data-reveal>
 					<a class="button button-primary" href="/blog">浏览全部文章</a>
 					<a class="button button-ghost" href="/about">关于我</a>
 				</div>
@@ -40,16 +43,9 @@ const more = rest.slice(0, 5);
 							<span class="kicker">最新一篇</span>
 						</div>
 						<a class="feature-card" href={`/blog/${featured.id}/`} data-reveal>
-							{featured.data.heroImage && (
-								<div class="feature-media">
-									<Image
-										width={880}
-										height={620}
-										src={featured.data.heroImage}
-										alt=""
-									/>
-								</div>
-							)}
+							<div class="feature-media">
+								<PostCover seed={featured.data.title} label="WG · JOURNAL" />
+							</div>
 							<div class="feature-body">
 								<div class="feature-meta">
 									<FormattedDate date={featured.data.pubDate} />
@@ -117,6 +113,9 @@ const more = rest.slice(0, 5);
 		font-weight: 600;
 		line-height: 1.05;
 		letter-spacing: -0.03em;
+	}
+	.hero-title .line {
+		display: block;
 	}
 	.hero .dot {
 		color: var(--accent);
@@ -187,16 +186,9 @@ const more = rest.slice(0, 5);
 		background: var(--bg-subtle);
 		box-shadow: var(--shadow-sm);
 	}
-	.feature-media :global(img) {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		border-radius: 0;
-		display: block;
-		transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-	}
-	.feature-card:hover .feature-media :global(img) {
-		transform: scale(1.05);
+	.feature-media :global(.cover) {
+		height: 120%;
+		will-change: transform;
 	}
 	.feature-meta {
 		font-size: 0.85rem;

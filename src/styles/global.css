@@ -441,16 +441,11 @@ pre > code {
 /* ------------------------------------------------------------------ */
 .js [data-reveal] {
 	opacity: 0;
-	transform: translateY(18px);
-	transition:
-		opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-		transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-	transition-delay: var(--reveal-delay, 0s);
 	will-change: opacity, transform;
 }
-.js [data-reveal].is-visible {
-	opacity: 1;
-	transform: none;
+.js .hero-title .line {
+	opacity: 0;
+	will-change: opacity, transform;
 }
 
 /* ------------------------------------------------------------------ */
@@ -481,7 +476,8 @@ pre > code {
 	html {
 		scroll-behavior: auto;
 	}
-	.js [data-reveal] {
+	.js [data-reveal],
+	.js .hero-title .line {
 		opacity: 1;
 		transform: none;
 		transition: none;

@@ -2,7 +2,6 @@
 title: "Shopify Functions 入门：用代码自定义折扣逻辑"
 description: "Scripts 退场之后，自定义折扣、运费、支付规则都靠 Functions。用一个「满 3 件减 10%」的例子跑通整条链路。"
 pubDate: "2026-05-15"
-heroImage: "../../assets/blog-placeholder-4.jpg"
 ---
 
 以前要写自定义折扣，靠的是 Shopify Scripts（Plus 专属、运行在 Ruby 沙箱里）。现在这套能力被 **Shopify Functions** 取代：你写一段逻辑，编译成 WebAssembly，由 Shopify 在结账等环节高速执行。

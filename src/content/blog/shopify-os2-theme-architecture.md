@@ -2,7 +2,6 @@
 title: "Shopify OS 2.0 主题架构：Section、Block 与 JSON Template"
 description: "从目录结构到 Section、Block、Section Group，理清 Online Store 2.0 主题到底是怎么组织起来的。"
 pubDate: "2026-06-07"
-heroImage: "../../assets/blog-placeholder-2.jpg"
 ---
 
 刚接手 Shopify 主题开发时，最容易懵的就是：一个页面到底是由哪些文件拼出来的？Online Store 2.0（下文简称 OS 2.0）把整套结构重新梳理了一遍，理解了它，后面做任何改造都会顺很多。

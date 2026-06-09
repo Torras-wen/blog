@@ -2,7 +2,6 @@
 title: "我的 Shopify 主题开发工作流：CLI、Theme Check 与 Git"
 description: "从本地热重载到 Theme Check 把关，再到用 Git 管理多环境，一套让主题开发不再靠在后台手改的工作流。"
 pubDate: "2026-04-18"
-heroImage: "../../assets/blog-placeholder-about.jpg"
 ---
 
 在后台代码编辑器里直接改线上主题，是新手最容易养成的坏习惯——没有版本、没有校验、改崩了还不好回滚。下面是我现在用的一套主题开发流程，核心就三件事：**本地实时预览、提交前自动校验、用 Git 管版本和环境。**

@@ -2,7 +2,6 @@
 title: "写好 Shopify Section Schema：那些容易踩的校验坑"
 description: "range 档位、default 取值、text_alignment、内联 CSS 变量优先级……把这些 schema 校验坑一次性讲清楚。"
 pubDate: "2026-05-28"
-heroImage: "../../assets/blog-placeholder-3.jpg"
 ---
 
 Section 的 `{% schema %}` 看起来只是一段 JSON，但它有一套并不那么直观的校验规则。下面这些都是实打实踩过的坑，遇到「主题保存失败 / 编辑器报错 / 设置项不生效」时，可以对照排查。
